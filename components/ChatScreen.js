@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import styled from "styled-components";
 import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -18,6 +19,7 @@ function ChatScreen({ chat, messages }) {
   const [user] = useAuthState(auth);
   const [input, setInput] = useState("");
   const router = useRouter();
+  const endOfMessagesRef = useRef(null);
   const [messagesSnapshot] = useCollection(
     db
       .collection("chats")
@@ -51,6 +53,13 @@ function ChatScreen({ chat, messages }) {
     }
   };
 
+  const scrollToBottom = (e) => {
+    endOfMessagesRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   // Update last Scene of User
   const sendMessage = (e) => {
     e.preventDefault();
@@ -69,6 +78,7 @@ function ChatScreen({ chat, messages }) {
     });
 
     setInput("");
+    scrollToBottom();
   };
 
   const recipientEmail = getRecipientEmail(chat.users, user);
@@ -83,7 +93,7 @@ function ChatScreen({ chat, messages }) {
         )}
 
         <HeaderInfo>
-          <h3>{recipientEmail}</h3>
+          <h4>{recipientEmail}</h4>
           {recipientSnapshot ? (
             <p>
               Last active:{" "}
@@ -111,7 +121,8 @@ function ChatScreen({ chat, messages }) {
 
       <MessageContainer>
         {showMessages()}
-        <EndOfMessage />
+        <EndOfMessages ref={endOfMessagesRef} />
+
       </MessageContainer>
 
       <InputContainer>
@@ -137,6 +148,7 @@ const Header = styled.div`
   background-color: white;
   display: flex;
   padding: 11px;
+  height: 80px;
   align-items: center;
   border-bottom: 1px solid whitesmoke;
 `;
@@ -145,7 +157,7 @@ const HeaderInfo = styled.div`
   margin-left: 15px;
   flex: 1;
 
-  > h3 {
+  > h4 {
     margin-bottom: 3px;
   }
 
@@ -163,7 +175,9 @@ const MessageContainer = styled.div`
   min-height: 90vh;
 `;
 
-const EndOfMessage = styled.div``;
+const EndOfMessages = styled.div`
+  margin-bottom: 50px;
+`;
 
 const InputContainer = styled.form`
   display: flex;
