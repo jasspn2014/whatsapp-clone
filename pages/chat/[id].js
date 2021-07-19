@@ -8,8 +8,7 @@ import getRecipientEmail from "../../utils/getRecipientEmail";
 
 function Chat({ chat, messages }) {
   const [user] = useAuthState(auth);
-  console.log(chat);
-  console.log(messages);
+
   return (
     <Container>
       <Head>
@@ -65,7 +64,7 @@ const Container = styled.div`
 
 const ChatContainer = styled.div`
   flex: 1;
-  overflow: scroll;
+  overflow-y: scroll;
   height: 100vh;
   ::-webkit-scrollbar {
     display: none;
