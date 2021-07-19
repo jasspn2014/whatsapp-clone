@@ -3,17 +3,18 @@ import styled from "styled-components";
 import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
-import { Avatar, IconButton } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import AttachFileIcon from "@material-ui/icons/AttachFile";
 import { useCollection } from "react-firebase-hooks/firestore";
-import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
-import MicIcon from "@material-ui/icons/Mic";
 import { useState } from "react";
 import firebase from "firebase";
 import Message from "../components/Message";
 import getRecipientEmail from "../utils/getRecipientEmail";
 import TimeAgo from "timeago-react";
+
+import { Avatar, IconButton } from "@material-ui/core";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import AttachFileIcon from "@material-ui/icons/AttachFile";
+import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
+import MicIcon from "@material-ui/icons/Mic";
 
 function ChatScreen({ chat, messages }) {
   const [user] = useAuthState(auth);
